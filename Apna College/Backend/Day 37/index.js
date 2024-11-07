@@ -110,6 +110,45 @@ app.patch("/user/:id",(req,res)=>{
   }
 })
 
+//Add new user
+
+app.get("/user/new",(req,res)=>{
+  res.render("new.ejs");
+})
+
+app.get("/new",(req,res)=>{
+  let { username, email, password}=req.query;
+  let arr=[faker.string.uuid(),username,email,password];
+  // console.log(arr);
+  let q="INSERT INTO user (id,username,email,password) VALUES (?,?,?,?)"
+  try{
+    connection.query(q,arr,(err,result)=>{
+      if(err)
+        throw err;
+      res.redirect("/user");
+    })
+  }catch(err){
+    console.log("Error!!");
+  }
+})
+
+//Delete user
+
+app.get("/user/:id/delete",(req,res)=>{
+  let { id }=req.params;
+  let q=`DELETE FROM user WHERE id='${id}'`;
+  try{
+    connection.query(q,(err,result)=>{
+      if(err)
+        throw err;
+      let user=result[0];
+      res.redirect("/user");
+    })
+  }catch(err){
+    console.log("Error!!");
+  }
+})
+
 app.get("*",(req,res)=>{
   res.render("error.ejs");
 })
