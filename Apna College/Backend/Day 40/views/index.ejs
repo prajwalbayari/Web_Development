@@ -17,6 +17,9 @@
             <p>From: <i><%= chats[i].from %></i></p>
             <div class="message">
                 <p><%= chats[i].message %></p>
+                <form method="get" action="/chats/<%= chats[i]._id %>/edit">
+                    <button>Edit</button>
+                </form>
             </div>
             <p>Recieved by: <i> <%= chats[i].to %></i></p>
             <hr>
