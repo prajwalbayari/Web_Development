@@ -14,10 +14,11 @@
     "express": "^4.16.4",
     "mongoose": "^8.8.1",
     "morgan": "^1.9.1",
+    "slugify": "^1.6.6",
     "with": "^7.0.2"
   },
   "devDependencies": {
-    "eslint": "^9.15.0",
+    "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-import": "^2.17.2",
@@ -27,7 +28,7 @@
     "eslint-plugin-react": "^7.12.4",
     "prettier": "^1.17.0"
   },
-  "engines":{
-    "node":">=10.0.0"
+  "engines": {
+    "node": ">=10.0.0"
   }
 }
