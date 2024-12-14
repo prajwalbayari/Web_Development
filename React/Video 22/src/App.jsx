@@ -3,8 +3,8 @@ import { ClassComponent } from "./ClassComponent"
 
 function App() {
   return(
-    // <FunctionComponent />
-    <ClassComponent/>
+    <FunctionComponent />
+    // <ClassComponent/>
   )
 }
 export default App
