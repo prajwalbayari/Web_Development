@@ -1,10 +1,12 @@
 import { useState } from "react";
+import "./styles.css"
 
 function App() {
   const [newTodo, setTodoName] = useState("");
   const [todo, setTodo] = useState([]);
 
-  function addNewTodo() {
+  function addNewTodo(e) {
+    e.preventDefault()
     if (newTodo === "") return;
     setTodo((curTodo) => {
       return [
@@ -43,9 +45,9 @@ function App() {
                   data-list-item-checkbox
                   onChange={e => toggleTodo(t.id, e.target.checked)}
                 />
-                <span data-list-item-checkbox>{t.name}</span>
+                <span data-list-item-text>{t.name}</span>
               </label>
-              <button data-list-item-checkbox onClick={() => deleteTodo(t.id)}>
+              <button data-button-delete onClick={() => deleteTodo(t.id)}>
                 Delete
               </button>
             </li>
@@ -53,19 +55,16 @@ function App() {
         })}
       </ul>
 
-      <div id="todo-form">
-        <br />
+      <from onSubmit={addNewTodo} id="new-todo-form">
         <label htmlFor="todo-input">New Todo</label>
-        <br />
         <input
           type="text"
           id="todo-input"
           value={newTodo}
           onChange={(e) => setTodoName(e.target.value)}
         />
-        <br />
         <button onClick={addNewTodo}>Add Todo</button>
-      </div>
+      </from>
     </>
   );
 }
