@@ -1,34 +1,35 @@
 {
-    "jobs":[
-        {
-            "id":1,
-            "title":"Sr. React developer",
-            "salary":50000,
-            "location":"london UK"
-        },
-        {
-            "id":2,
-            "title":"Sr. React developer",
-            "salary":50000,
-            "location":"london UK"
-        },
-        {
-            "id":3,
-            "title":"Sr. React developer",
-            "salary":50000,
-            "location":"london UK"
-        },
-        {
-            "id":4,
-            "title":"Sr. React developer",
-            "salary":50000,
-            "location":"london UK"
-        },
-        {
-            "id":5,
-            "title":"Sr. React developer",
-            "salary":50000,
-            "location":"london UK"
-        }
+    "jobs": [
+      {
+        "id": 1,
+        "title": "Sr. React developer",
+        "salary": 50000,
+        "location": "London UK"
+      },
+      {
+        "id": 2,
+        "title": "Frontend developer",
+        "salary": 40000,
+        "location": "San Francsico US"
+      },
+      {
+        "id": 3,
+        "title": "Full Stack developer",
+        "salary": 60000,
+        "location": "Bangalore IN"
+      },
+      {
+        "id": 4,
+        "title": "Product Manager",
+        "salary": 90000,
+        "location": "Los Angeles US"
+      },
+      {
+        "id": 5,
+        "title": "UI Designer",
+        "salary": 80000,
+        "location": "Mumbai IN"
+      }
     ]
-}
+  }
+  

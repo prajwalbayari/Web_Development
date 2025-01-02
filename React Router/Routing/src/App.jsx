@@ -1,4 +1,3 @@
-import Navbar from "./components/navbar";
 import {
   Route,
   createBrowserRouter,
@@ -16,6 +15,7 @@ import NotFound from "./components/NotFound";
 import JobsLayout from "./layout/JobsLayout";
 import Jobs, { jobsloader } from "./components/Jobs";
 import JobDetails, { jobDetailsLoader } from "./components/JobDetails";
+import Error from "./components/Error";
 
 function App() {
   const router = createBrowserRouter(
@@ -28,11 +28,15 @@ function App() {
           <Route path="info" element={<ContactInfo />} />
           <Route path="form" element={<ContactForm />} />
         </Route>
-        <Route path='jobs' element={<JobsLayout/>}>
-          <Route index element={<Jobs/>} loader={jobsloader}/>
-          <Route path=":id" element={<JobDetails/>} loader={jobDetailsLoader}/>
+        <Route path="jobs" element={<JobsLayout />} errorElement={<Error />}>
+          <Route index element={<Jobs />} loader={jobsloader} />
+          <Route
+            path=":id"
+            element={<JobDetails />}
+            loader={jobDetailsLoader}
+          />
         </Route>
-        <Route path="*" element={<NotFound/>} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     )
   );
