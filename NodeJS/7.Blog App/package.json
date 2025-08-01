@@ -1,0 +1,21 @@
+{
+  "name": "7.blog-app",
+  "version": "1.0.0",
+  "description": "Blog App By Piyush Garg",
+  "license": "ISC",
+  "author": "Prajwal B",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
