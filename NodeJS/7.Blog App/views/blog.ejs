@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title><%= blog.title %> - Blogify</title>
+    <style>
+      .blog-hero {
+        background: linear-gradient(135deg, #374151 0%, #6b7280 50%, #9ca3af 100%);
+        color: white;
+        padding: 4rem 0 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .blog-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      .blog-hero-content {
+        position: relative;
+        z-index: 2;
+      }
+      .blog-container {
+        margin-top: -4rem;
+        position: relative;
+        z-index: 3;
+      }
+      .blog-main-card {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px rgba(55, 65, 81, 0.15);
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+      .blog-cover-image {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+      }
+      .blog-content {
+        padding: 3rem;
+      }
+      .blog-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #374151;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+      }
+      .blog-meta {
+        padding: 1.5rem 3rem;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-top: 1px solid #e2e8f0;
+      }
+      .author-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #374151 0%, #6b7280 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.2rem;
+      }
+      .author-info h6 {
+        color: #374151;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+      .author-info small {
+        color: #6b7280;
+      }
+      .blog-body {
+        font-size: 1.125rem;
+        line-height: 1.8;
+        color: #374151;
+      }
+      .blog-body p {
+        margin-bottom: 1.5rem;
+      }
+      .action-buttons {
+        padding: 2rem 3rem;
+        background: #f9fafb;
+        border-top: 1px solid #e5e7eb;
+      }
+      .btn-primary-custom {
+        background: linear-gradient(135deg, #374151 0%, #6b7280 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 14px rgba(55, 65, 81, 0.25);
+      }
+      .btn-primary-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(55, 65, 81, 0.35);
+      }
+      .btn-secondary-custom {
+        background: #6b7280;
+        border: none;
+        border-radius: 12px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+      .btn-secondary-custom:hover {
+        background: #4b5563;
+        transform: translateY(-2px);
+      }
+      .btn-warning-custom {
+        background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
+      }
+      .btn-warning-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.35);
+      }
+      .reading-time {
+        background: rgba(255,255,255,0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        backdrop-filter: blur(10px);
+      }
+      @media (max-width: 768px) {
+        .blog-title {
+          font-size: 2rem;
+        }
+        .blog-content {
+          padding: 2rem;
+        }
+        .blog-meta, .action-buttons {
+          padding: 1.5rem 2rem;
+        }
+        .blog-cover-image {
+          height: 250px;
+        }
+      }
+      .comments-section {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 2px solid #e5e7eb;
+      }
+      .comments-header h3 {
+        color: #374151;
+        font-weight: 700;
+      }
+      .comment-item {
+        transition: all 0.3s ease;
+      }
+      .comment-item:hover {
+        transform: translateY(-2px);
+      }
+      .comment-content p {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+      .add-comment-form textarea:focus {
+        border-color: #374151 !important;
+        box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.1) !important;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+    
+    <!-- Blog Hero Section -->
+    <section class="blog-hero">
+      <div class="container">
+        <div class="blog-hero-content text-center">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="reading-time mb-3">
+                <i class="bi bi-clock me-2"></i>
+                <%= Math.ceil(blog.body.split(' ').length / 200) %> min read
+              </div>
+              <h1 class="display-4 fw-bold mb-3"><%= blog.title %></h1>
+              <div class="d-flex align-items-center justify-content-center gap-3 text-white-50">
+                <i class="bi bi-calendar3"></i>
+                <span><%= new Date(blog.createdAt).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                }) %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Blog Content -->
+    <div class="container blog-container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <article class="blog-main-card">
+            <!-- Cover Image -->
+            <% if (blog.coverImageURL) { %>
+            <img src="<%= blog.coverImageURL %>" class="blog-cover-image" alt="<%= blog.title %>">
+            <% } %>
+            
+            <!-- Author Info -->
+            <div class="blog-meta">
+              <div class="d-flex align-items-center">
+                <div class="author-avatar me-3">
+                  <%= (blog.createdBy.fullName || blog.createdBy.email).charAt(0).toUpperCase() %>
+                </div>
+                <div class="author-info flex-grow-1">
+                  <h6 class="mb-0"><%= blog.createdBy.fullName || blog.createdBy.email %></h6>
+                  <small>Published on <%= new Date(blog.createdAt).toLocaleDateString() %></small>
+                </div>
+                <div class="d-flex align-items-center text-muted">
+                  <i class="bi bi-eye me-1"></i>
+                  <small>Reading now</small>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Blog Content -->
+            <div class="blog-content">
+              <div class="blog-body">
+                <% blog.body.split('\n').forEach(paragraph => { %>
+                  <% if (paragraph.trim()) { %>
+                    <p><%= paragraph %></p>
+                  <% } %>
+                <% }) %>
+              </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <div class="d-flex gap-3 justify-content-start align-items-center flex-wrap">
+                <a href="/" class="btn btn-secondary-custom text-white">
+                  <i class="bi bi-arrow-left me-2"></i>Back to Home
+                </a>
+                <% if (locals.user && blog.createdBy._id.toString() === user.id) { %>
+                <a href="/blog/edit/<%= blog._id %>" class="btn btn-warning-custom text-white">
+                  <i class="bi bi-pencil-square me-2"></i>Edit Post
+                </a>
+                <% } %>
+              </div>
+            </div>
+          </article>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          <div class="sticky-top" style="top: 2rem;">
+            <!-- Author Card -->
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 20px;">
+              <div class="card-body text-center p-4">
+                <div class="author-avatar mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+                  <%= (blog.createdBy.fullName || blog.createdBy.email).charAt(0).toUpperCase() %>
+                </div>
+                <h5 class="fw-bold text-dark"><%= blog.createdBy.fullName || blog.createdBy.email %></h5>
+                <p class="text-muted small mb-3">Blog Author</p>
+                <div class="d-flex justify-content-center gap-2">
+                  <span class="badge bg-light text-dark px-3 py-2">Writer</span>
+                  <span class="badge bg-light text-dark px-3 py-2">Blogger</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Blog Stats -->
+            <div class="card border-0 shadow-sm" style="border-radius: 20px;">
+              <div class="card-body p-4">
+                <h6 class="fw-bold text-dark mb-3">Article Info</h6>
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Word Count:</span>
+                  <span class="fw-semibold"><%= blog.body.split(' ').length %></span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Reading Time:</span>
+                  <span class="fw-semibold"><%= Math.ceil(blog.body.split(' ').length / 200) %> min</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Published:</span>
+                  <span class="fw-semibold"><%= new Date(blog.createdAt).toLocaleDateString() %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Comments Section -->
+      <div class="row justify-content-center mt-5">
+        <div class="col-lg-8">
+          <div class="comments-section">
+            <div class="comments-header mb-4">
+              <h3 class="fw-bold text-dark mb-3">
+                <i class="bi bi-chat-dots me-2"></i>
+                Comments (<%= comments ? comments.length : 0 %>)
+              </h3>
+              
+              <!-- Add Comment Form -->
+              <div class="add-comment-form">
+                <form action="/blog/<%= blog._id %>/comment" method="POST">
+                  <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px;">
+                    <div class="card-body p-4">
+                      <div class="d-flex align-items-start gap-3">
+                        <div class="author-avatar flex-shrink-0" style="width: 40px; height: 40px; font-size: 1.1rem;">
+                          <%= (user.fullName || user.email).charAt(0).toUpperCase() %>
+                        </div>
+                        <div class="flex-grow-1">
+                          <textarea 
+                            name="content" 
+                            class="form-control border-0 bg-light" 
+                            rows="3" 
+                            placeholder="Share your thoughts about this blog post..."
+                            required
+                            style="border-radius: 12px; resize: none;"
+                          ></textarea>
+                          <div class="d-flex justify-content-end mt-3">
+                            <button type="submit" class="btn btn-primary-custom text-white">
+                              <i class="bi bi-send me-2"></i>Post Comment
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            
+            <!-- Comments List -->
+            <div class="comments-list">
+              <% if (comments && comments.length > 0) { %>
+                <% comments.forEach(comment => { %>
+                <div class="comment-item mb-4">
+                  <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                    <div class="card-body p-4">
+                      <div class="d-flex align-items-start gap-3">
+                        <div class="author-avatar flex-shrink-0" style="width: 40px; height: 40px; font-size: 1.1rem;">
+                          <%= (comment.createdBy.fullName || comment.createdBy.email).charAt(0).toUpperCase() %>
+                        </div>
+                        <div class="flex-grow-1">
+                          <div class="comment-header d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                              <h6 class="fw-bold text-dark mb-0">
+                                <%= comment.createdBy.fullName || comment.createdBy.email %>
+                              </h6>
+                              <small class="text-muted">
+                                <i class="bi bi-clock me-1"></i>
+                                <%= new Date(comment.createdAt).toLocaleDateString('en-US', { 
+                                  year: 'numeric', 
+                                  month: 'long', 
+                                  day: 'numeric',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                }) %>
+                              </small>
+                            </div>
+                          </div>
+                          <div class="comment-content">
+                            <p class="text-dark mb-0" style="line-height: 1.6;">
+                              <%= comment.content %>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+              <% } else { %>
+              <div class="text-center py-5">
+                <div class="card border-0 bg-light" style="border-radius: 15px;">
+                  <div class="card-body py-5">
+                    <i class="bi bi-chat-dots fs-1 text-muted mb-3"></i>
+                    <h5 class="text-muted mb-2">No comments yet</h5>
+                    <p class="text-muted">Be the first to share your thoughts on this blog post!</p>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <%- include('./partials/scripts') %>
+  </body>
+</html>

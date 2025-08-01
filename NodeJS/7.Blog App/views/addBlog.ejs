@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title>Add New Blog - Blogify</title>
+    <style>
+      .add-blog-container {
+        background: linear-gradient(135deg, #374151 0%, #6b7280 50%, #9ca3af 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
+      .add-blog-card {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px rgba(55, 65, 81, 0.15);
+        overflow: hidden;
+      }
+      .add-blog-header {
+        background: linear-gradient(135deg, #374151 0%, #6b7280 50%, #9ca3af 100%);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+      }
+      .add-blog-form {
+        padding: 2rem;
+      }
+      .form-label {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+      }
+      .form-control, .form-select {
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #f9fafb;
+      }
+      .form-control:focus, .form-select:focus {
+        border-color: #374151;
+        box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.1);
+        background: white;
+      }
+      .btn-submit {
+        background: linear-gradient(135deg, #374151 0%, #6b7280 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 0.875rem 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 14px rgba(55, 65, 81, 0.25);
+      }
+      .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(55, 65, 81, 0.35);
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+    
+    <div class="add-blog-container">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 col-md-10">
+            <div class="add-blog-card">
+              <div class="add-blog-header">
+                <h2 class="mb-0">
+                  <i class="bi bi-plus-circle me-2"></i>
+                  Create New Blog
+                </h2>
+                <p class="mb-0 mt-2 opacity-75">Share your amazing story with the world</p>
+              </div>
+              
+              <div class="add-blog-form">
+                <% if(locals.error) { %>
+                <div class="alert alert-danger" role="alert">
+                  <i class="bi bi-exclamation-triangle me-2"></i>
+                  <%= locals.error %>
+                </div>
+                <% } %>
+                
+                <form action="/blog" method="post" enctype="multipart/form-data">
+                  <div class="row">
+                    <div class="col-12 mb-4">
+                      <label for="title" class="form-label">
+                        <i class="bi bi-type me-2"></i>Blog Title
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        name="title"
+                        placeholder="Enter an engaging title..."
+                        required
+                      />
+                    </div>
+                    
+                    <div class="col-12 mb-4">
+                      <label for="body" class="form-label">
+                        <i class="bi bi-card-text me-2"></i>Blog Content
+                      </label>
+                      <textarea
+                        class="form-control"
+                        id="body"
+                        name="body"
+                        rows="8"
+                        placeholder="Tell your story..."
+                        required
+                      ></textarea>
+                    </div>
+                    
+                    <div class="col-12 mb-4">
+                      <label for="coverImageURL" class="form-label">
+                        <i class="bi bi-image me-2"></i>Cover Image
+                      </label>
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="coverImageURL"
+                        name="coverImageURL"
+                        accept="image/*"
+                        required
+                      />
+                      <small class="text-muted">Choose an image that represents your blog post</small>
+                    </div>
+                  </div>
+                  
+                  <div class="d-flex gap-3 justify-content-center flex-wrap mt-4">
+                    <button type="submit" class="btn btn-submit text-white">
+                      <i class="bi bi-check-circle me-2"></i>Publish Blog
+                    </button>
+                    <a href="/" class="btn btn-secondary">
+                      <i class="bi bi-x-circle me-2"></i>Cancel
+                    </a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <%- include('./partials/scripts') %>
+  </body>
+</html>
