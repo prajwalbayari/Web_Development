@@ -50,10 +50,49 @@ type Manager = {
 
 type teamLead = Employee & Manager; // Intersection
 
-type arr=number[] //Array cannot be created by interface
+type arr = number[]; //Array cannot be created by interface
 
-function findMax(arr:number[]):void{
-    console.log(Math.max(...arr));
+function findMax(arr: number[]): void {
+  console.log(Math.max(...arr));
 }
 
-findMax([1,2,3]);
+// findMax([1,2,3]);
+
+enum direction {
+  "Up", // 0
+  "Down", // 1
+  "Left", // 2
+  "Right", // 3 These values can be changed by assigning different values here
+}
+
+function doSomeThing(dir: direction): void {
+  if (dir == direction.Up) {
+    console.log("Going up");
+  } else if (dir == direction.Down) {
+    console.log("Going down");
+  } else if ((dir = direction.Left)) {
+    console.log("Going left");
+  } else {
+    console.log("Going right");
+  }
+}
+
+// doSomeThing(direction.Up);
+
+//Generics
+function identity<T>(arg: T): T {
+  return arg;
+}
+let output1 = identity<string>("MyString");
+let output2 = identity<Number>(10);
+
+output1 = output1.toUpperCase();
+
+// console.log(output1, output2);
+
+function getMyFirstElement<T>(args: T[]): T | undefined {
+  return args[0];
+}
+
+const el = getMyFirstElement<String>(["Hello", "There"]);
+console.log(el?.toLowerCase());
