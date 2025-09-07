@@ -175,3 +175,106 @@ type params = Parameters<typeof getSecond>;
 type group = Record<string, number[]>;
 //Readonly
 type confidentialPerson = Readonly<person>;
+
+// Awaited
+async function doSomething() {
+  return 0;
+}
+type val = Awaited<ReturnType<typeof doSomething>>; // Converts Promises into actual content
+
+// Typeguard
+type todo = {
+  title: string;
+  priority: "High" | "Medium" | "Low";
+  desctiption?: string;
+  isComplete: boolean;
+  dueDate: Date | string;
+};
+
+function extendTodo(todo: todo) {
+  if (todo.dueDate instanceof Date) {
+    console.log(todo.dueDate.toISOString());
+    // extras(todo);
+    return;
+  }
+  console.log(todo.dueDate.repeat(2));
+}
+
+extendTodo({
+  title: "Hi",
+  priority: "High",
+  dueDate: new Date(2024, 10, 6, 10, 9, 8, 90),
+  isComplete: true,
+  desctiption: "blah",
+});
+
+// The never type (Hover on default case)
+function extras(todo: todo) {
+  switch (todo.priority) {
+    case "High":
+      console.log(todo.priority);
+      break;
+    case "Medium":
+      console.log(todo.priority);
+      break;
+    case "Low":
+      console.log(todo.priority);
+      break;
+    default:
+      console.log(todo.priority);
+      break;
+  }
+}
+
+// Type unknown
+function unknownType(data: unknown) {
+  if (
+    data != null &&
+    data instanceof Object &&
+    "name" in data &&
+    typeof data.name === "string"
+  ) {
+    console.log(data.name.length);
+  }
+}
+
+// As casting
+type fetchedData = {
+  title: string;
+};
+
+async function fetchData(data: unknown) {
+  fetch("something")
+    .then((res) => res.json())
+    .then((data) => console.log(data as fetchedData));
+}
+
+// Satisfies Can help in restricting the type of the data being used
+const td = {
+  title: "Title",
+  dueDate: new Date(), // Is considered date type and string is ignored
+  isComplete: true,
+  priority: "Medium",
+  desctiption: "DESC",
+} satisfies todo;
+
+// Type predicate
+
+type Person = {
+  name: string;
+};
+type task = {
+  title: string;
+};
+
+function print(obj: Person | task) {
+  if (isPerson(obj)) {
+    console.log(obj.name);
+    return;
+  }
+  console.log(obj.title);
+}
+
+function isPerson(obj: Person | task): obj is Person {
+  return "name" in obj;
+}
