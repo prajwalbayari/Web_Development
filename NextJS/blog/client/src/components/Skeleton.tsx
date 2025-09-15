@@ -1,11 +1,11 @@
-import React, { Fragment, ReactNode } from "react";
+import { Fragment, ReactNode } from "react"
 
 export function Skeleton({
   short,
   inline,
 }: {
-  short?: boolean;
-  inline?: boolean;
+  short?: boolean
+  inline?: boolean
 }) {
   return (
     <div
@@ -15,23 +15,23 @@ export function Skeleton({
         display: inline ? "inline-block" : undefined,
       }}
     />
-  );
+  )
 }
 
 export function SkeletonButton() {
-  return <div className="skeleton skeleton-btn" />;
+  return <div className="skeleton skeleton-btn" />
 }
 
 export function SkeletonInput() {
-  return <div className="skeleton skeleton-input" />;
+  return <div className="skeleton skeleton-input" />
 }
 
 export function SkeletonList({
   amount,
   children,
 }: {
-  amount: number;
-  children: ReactNode;
+  amount: number
+  children: ReactNode
 }) {
   return (
     <>
@@ -39,5 +39,5 @@ export function SkeletonList({
         <Fragment key={i}>{children}</Fragment>
       ))}
     </>
-  );
+  )
 }

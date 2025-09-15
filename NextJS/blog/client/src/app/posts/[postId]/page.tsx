@@ -1,25 +1,38 @@
-import { getPostComments } from "@/api/comments";
-import { getPost } from "@/api/posts";
-import { getUser } from "@/api/users";
+import { getPostComments } from "@/db/comments";
+import { getPost } from "@/db/posts";
+import { getUser } from "@/db/users";
 import { Skeleton, SkeletonList } from "@/components/Skeleton";
 import Link from "next/link";
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import { DeleteButton } from "./DeleteButton";
 
-export default function PostPage({
-  params: { postId },
+export default async function PostPage({
+  params,
 }: {
-  params: { postId: string };
+  params: Promise<{ postId: string }>;
 }) {
+  const { postId } = await params;
+
   return (
     <>
       <Suspense
         fallback={
           <>
-            <h1 className="page-title">
+            <div className="page-title">
               <Skeleton inline short />
-            </h1>
+              <div className="title-btns">
+                <Link
+                  className="btn btn-outline"
+                  href={`/posts/${postId}/edit`}
+                >
+                  Edit
+                </Link>
+                <DeleteButton postId={postId} />
+              </div>
+            </div>
             <span className="page-subtitle">
-              By: <Skeleton inline short />
+              By: <Skeleton short inline />
             </span>
             <div>
               <Skeleton />
@@ -59,11 +72,21 @@ export default function PostPage({
 async function PostDetails({ postId }: { postId: string }) {
   const post = await getPost(postId);
 
+  if (post == null) return notFound();
+
   return (
     <>
-      <h1 className="page-title">{post.title}</h1>
+      <div className="page-title">
+        <Skeleton inline short />
+        <div className="title-btns">
+          <Link className="btn btn-outline" href={`/posts/${postId}/edit`}>
+            Edit
+          </Link>
+          <DeleteButton postId={postId} />
+        </div>
+      </div>
       <span className="page-subtitle">
-        By:
+        By:{" "}
         <Suspense fallback={<Skeleton short inline />}>
           <UserDetails userId={post.userId} />
         </Suspense>
@@ -73,13 +96,15 @@ async function PostDetails({ postId }: { postId: string }) {
   );
 }
 
-async function UserDetails({ userId }: { userId: string | number }) {
+async function UserDetails({ userId }: { userId: number }) {
   const user = await getUser(userId);
+  if (user == null) return notFound();
   return <Link href={`/users/${user.id}`}>{user.name}</Link>;
 }
 
 async function Comments({ postId }: { postId: string }) {
   const comments = await getPostComments(postId);
+
   return comments.map((comment) => (
     <div key={comment.id} className="card">
       <div className="card-body">

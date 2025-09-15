@@ -48,6 +48,53 @@ export const getUserPosts = unstable_cache(
   ["posts", "userId"]
 );
 
+export async function createPost({
+  title,
+  body,
+  userId,
+}: {
+  title: string;
+  body: string;
+  userId: number;
+}) {
+  await wait(2000);
+  return prisma.post.create({
+    data: {
+      title,
+      body,
+      userId,
+    },
+  });
+}
+
+export async function updatePost(
+  postId: string | number,
+  {
+    title,
+    body,
+    userId,
+  }: {
+    title: string;
+    body: string;
+    userId: number;
+  }
+) {
+  await wait(2000);
+  return prisma.post.update({
+    where: { id: Number(postId) },
+    data: {
+      title,
+      body,
+      userId,
+    },
+  });
+}
+
+export async function deletePost(postId: string | number) {
+  await wait(2000);
+  return prisma.post.delete({ where: { id: Number(postId) } });
+}
+
 function wait(duration: number) {
   return new Promise((resolve) => {
     setTimeout(resolve, duration);
